@@ -7,6 +7,8 @@ $cd build
 #Do Cmake
 $cmake ..
 
+#make changes in code if required
+
 #Do make 
 $make 
 
