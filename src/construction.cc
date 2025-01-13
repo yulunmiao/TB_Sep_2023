@@ -278,32 +278,12 @@ for (G4int i=1;i<3;i++){
 	/*G4VPhysicalVolume *physAbsorber = new G4PVPlacement(0,G4ThreeVector(0.,0.,8.0*mm+600*um+1.72*i*cm),logicAbsorber,"physAbsorber",logicWorld,false,i*14000,true);*/
 	
 	for (G4int j=0;j<192;j++){
-	
-		G4VPhysicalVolume *physDetector = new G4PVPlacement(rotation,vectors1[j]+G4ThreeVector(0.,0.,+119.5*cm+2*(i-1)*cm),logicDetector,"physDetector",logicWorld,false,i*1000+j,true);
-		
-	
-		
-		/*G4float min = std::sqrt((vectors1[j][0]-vectors1[169][0])*(vectors1[j][0]-vectors1[169][0])+(vectors1[j][1]-vectors1[169][1])*(vectors1[j][1]-vectors1[169][1]));
-		//G4cout<<"j	"<<j<<"	"<<min<<G4endl;
-		if (min>15*mm && min <28.6*mm){
-		count=count+1;
-		G4cout<<min<<"	"<<j<<G4endl;
-		}*/
-	
-		
-		
+		G4VPhysicalVolume *physDetector = new G4PVPlacement(rotation,vectors1[j]+G4ThreeVector(0.,0.,+119.5*cm+2*(i-1)*cm),logicDetector,"physDetector",logicWorld,false,i*1000+j,true);	
 		}
-//G4cout<<count<<G4endl;
 }
-
-
 
 return physWorld;
 }
-
-
-
-
 
 void MyDetectorConstruction :: ConstructSDandField()
 {
