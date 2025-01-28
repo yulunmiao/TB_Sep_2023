@@ -4,22 +4,19 @@
 #include "G4UserRunAction.hh"
 
 #include "G4AnalysisManager.hh"
+#include "G4LogicalVolume.hh"
+
 //#include "g4root.hh"
 
 
 
 class MyRunAction : public G4UserRunAction
 {
-public:
-MyRunAction();
-~MyRunAction();
-
-
-virtual void BeginOfRunAction(const G4Run*);
-virtual void EndOfRunAction(const G4Run*);
-
-private:
-    G4int fHistId2D;  // ID for the 2D histogram
+    public:
+    MyRunAction();
+    ~MyRunAction();
+    virtual void BeginOfRunAction(const G4Run*);
+    virtual void EndOfRunAction(const G4Run*);
 };
 
 #endif

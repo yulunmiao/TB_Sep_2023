@@ -22,8 +22,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step *aStep, G4TouchableHistory *ROhis
 	G4ThreeVector posDetector = physVol->GetTranslation();
 	
 	G4int evt = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
-	if (evt % 1000==0 && copyNo==1169){
-	G4cout << "Event: " << evt <<G4endl;}
+
 	G4double edep = aStep->GetTotalEnergyDeposit();  
 	return true;
 }

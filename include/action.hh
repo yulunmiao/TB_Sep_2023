@@ -12,15 +12,11 @@
 #include "stepping.hh"
 
 class MyActionInitialization : public G4VUserActionInitialization
-
 {
-public:
-
-MyActionInitialization();
-~MyActionInitialization();
-
-virtual void Build() const;
-
+    public:
+    MyActionInitialization();
+    ~MyActionInitialization();
+    virtual void Build() const;
 };
 
 #endif

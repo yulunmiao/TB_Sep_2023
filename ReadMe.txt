@@ -1,16 +1,14 @@
-
-#First source the Geant .sh file
-
+These codes works with Geant4 version 11.2.2
 # Go inside build folder
-$cd build
+cd build
 
 #Do Cmake
-$cmake ..
+cmake ..
 
 #make changes in code if required
 
 #Do make 
-$make 
+make 
 
 #run simulation
-$./sim
+./sim

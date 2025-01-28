@@ -1,4 +1,5 @@
 #include "action.hh"
+#include "variables.hh"
 
 
 MyActionInitialization::MyActionInitialization()
@@ -9,15 +10,15 @@ MyActionInitialization::~MyActionInitialization()
 
 void MyActionInitialization::Build() const
 {
-MyPrimaryGenerator *generator =new MyPrimaryGenerator();
-SetUserAction(generator);
+    MyPrimaryGenerator *generator =new MyPrimaryGenerator();
+    SetUserAction(generator);
 
-MyRunAction *runAction =new MyRunAction();
-SetUserAction(runAction);
+    MyRunAction *runAction =new MyRunAction();
+    SetUserAction(runAction);
 
-MyEventAction *eventAction = new MyEventAction(runAction);
-SetUserAction(eventAction);
+    MyEventAction *eventAction = new MyEventAction(runAction);
+    SetUserAction(eventAction);
 
-MySteppingAction *steppingAction = new MySteppingAction(eventAction);
-SetUserAction(steppingAction);
+    MySteppingAction *steppingAction = new MySteppingAction(eventAction);
+    SetUserAction(steppingAction);
 }

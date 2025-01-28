@@ -2,8 +2,7 @@
 
 MySteppingAction::MySteppingAction(MyEventAction *eventAction)
 {
-
-fEventAction = eventAction;
+    fEventAction = eventAction;
 }
 
 MySteppingAction::~MySteppingAction()
@@ -11,23 +10,18 @@ MySteppingAction::~MySteppingAction()
 
 void MySteppingAction::UserSteppingAction(const G4Step *step)
 {
-G4LogicalVolume *volume = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
+    G4LogicalVolume *volume = step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
 
-const MyDetectorConstruction *detectorConstruction = static_cast<const MyDetectorConstruction*>(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+    const MyDetectorConstruction *detectorConstruction = static_cast<const MyDetectorConstruction*>(G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
-G4LogicalVolume *fScoringVolume = detectorConstruction->GetScoringVolume();
+    G4LogicalVolume *fScoringVolume = detectorConstruction->GetScoringVolume();
 
-if(volume != fScoringVolume)
-	return;
-G4double edep = step->GetTotalEnergyDeposit();
- // Get the copy number of the volume
+    if(volume != fScoringVolume)
+        return;
+    G4double edep = step->GetTotalEnergyDeposit();
+    // Get the copy number of the volume
     G4int copyNo = step->GetPreStepPoint()->GetTouchableHandle()->GetCopyNumber();
-
-
-for (G4int i=1; i < 3 ;i++){
-    // Add the energy deposition to the event action
-    if (copyNo >= 1000*i+0 && copyNo < 1000*i+192) {
+    if (copyNo >=0  && copyNo <= 191) {
         fEventAction->AddEdep0(copyNo, edep);
-    }
     }
 }
