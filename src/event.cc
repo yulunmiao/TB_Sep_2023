@@ -33,17 +33,17 @@ void MyEventAction::BeginOfEventAction(const G4Event*){
 
 void MyEventAction::EndOfEventAction(const G4Event*){
     G4AnalysisManager *man = G4AnalysisManager::Instance();
-    G4double layer_dep=0;
-    for (G4int i = 0; i < 192; ++i) {
-        layer_dep=layer_dep + fEdep0[i] ;
-    }
-    man->FillNtupleDColumn( 0,0, layer_dep);
-    man->AddNtupleRow(0);
+    // G4double layer_dep=0;
+    // for (G4int i = 0; i < 192; ++i) {
+    //     layer_dep=layer_dep + fEdep0[i] ;
+    // }
+    // man->FillNtupleDColumn( 0,0, layer_dep);
+    // man->AddNtupleRow(0);
 
     for (G4int i = 0; i <192; ++i) {
         man->FillNtupleDColumn( 1,i, fEdep0[i]);
     }
-    man->AddNtupleRow(1);
+    man->AddNtupleRow(0);
 }
 
 
