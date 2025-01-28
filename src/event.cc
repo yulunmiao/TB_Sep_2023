@@ -41,7 +41,7 @@ void MyEventAction::EndOfEventAction(const G4Event*){
     // man->AddNtupleRow(0);
 
     for (G4int i = 0; i <192; ++i) {
-        man->FillNtupleDColumn( 1,i, fEdep0[i]);
+        man->FillNtupleDColumn( 0,i, fEdep0[i]);
     }
     man->AddNtupleRow(0);
 }
