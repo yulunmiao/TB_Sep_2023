@@ -27,13 +27,18 @@ void MyRunAction::BeginOfRunAction(const G4Run*)
         // man->FinishNtuple(1);
 
         G4AnalysisManager *man = G4AnalysisManager::Instance();
-        std::stringstream fileName;
-        fileName << std::setprecision(2) 
-                << "E_" << beamE << "GeV_" 
-                << "X_" << beamX / CLHEP::cm << "cm_" 
-                << "Y_" << beamY / CLHEP::cm << "cm_"
+        std::stringstream fileStream;
+        fileStream << std::setprecision(2) 
+                << "E_" << (int)beamE << "GeV_" 
+                << particleName<<"_"
+                << "X_" << beamX << "cm_" 
+                << "Y_" << beamY << "cm_"
                 << "Run_" << nEvents << ".root";
-        man->OpenFile("fileName.root");
+        std::string fileName = fileStream.str();
+        // fileName.replace(fileName.begin(), fileName.end(), ".", "p");
+        // fileName += ".root";
+        G4cout<<fileName<<std::endl;
+        man->OpenFile(fileName);
         man->CreateNtuple("Events","");
         for(G4int k =0 ;k<192;k++){
                 std::stringstream ss;   

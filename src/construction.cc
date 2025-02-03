@@ -37,26 +37,6 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     //fr4Material = FR4;
     //Define all materials
 
-    //Define center of cells in the wafer
-    std::vector<G4ThreeVector> cells;
-
-    G4double r = 101.6 / 12 * mm;
-    for(G4int iu=0;iu<=7;iu++){
-        for(G4int iv=0;iv<=iu+7;iv++){
-            G4double x = ((iv - 7) + (7 - iu) * 0.5) * sqrt(3) * r;
-            G4double y = ((7 - iu) * 0.5 ) * 3 * r +  1 * r;
-            cells.emplace_back(x,y,0);
-        }
-    }
-    for(G4int iu=8;iu<=15;iu++){
-        for(G4int iv=iu-8;iv<=15;iv++){
-            G4double x = ((iv - 7) + (7 - iu) * 0.5) * sqrt(3) * r;
-            G4double y = ((7 - iu) * 0.5) * 3 * r + 1 * r;
-            cells.emplace_back(x,y,0);
-        }
-    }
-    //Define cells in the wafer
-    
     G4Material *worldMat =nist->FindOrBuildMaterial("G4_Galactic");
 
     G4Box *solidWorld = new G4Box("solidWorld",20.0*m,20.0*m,20.0*m);
@@ -81,7 +61,7 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 	logicScintillator->SetVisAttributes(ScintillatorVisAttr);
 	
     // Defining Logic volume for Aluminium
-	G4Box *Aluminium = new G4Box("Aluminium",5.0*cm,5.0*cm,1.0*mm);
+	G4Box *Aluminium = new G4Box("Aluminium",6.98*mm,6.98*mm,1.0*mm);
     G4LogicalVolume *logicAluminium = new G4LogicalVolume( Aluminium, AluminiumMat, "logicAluminium");
 
 
@@ -93,13 +73,17 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 
 	// Assign the visualization attributes to the logical volume
 	logicAluminium->SetVisAttributes(AluminiumVisAttr);
-	
+
+    // Define the geometry of wafers
+    // Using the geomery in https://indico.cern.ch/event/1417346/contributions/5957835/attachments/2858884/5016059/CellAreas.pdf
+
+
     // Defining Logic volume for Silicon Sensors
-    G4double zPlane[] = { 0*um, 300*um }; // Z planes
-    G4double rInner[] = { 0*cm, 0*cm };  // Inner radius
-    G4double rOuter[] = { 6.98*mm, 6.98*mm };  // Outer radius
+    G4double zPlaneCell[] = { 0*um, 300*um }; // Z planes
+    G4double rInnerCell[] = { 0*cm, 0*cm };  // Inner radius
+    G4double rOuterCell[] = { 6.017*mm, 6.017*mm };  // Outer radius
  
-    G4Polyhedra* solidDetector = new G4Polyhedra("solidDetector", 0.*deg, 360.*deg, 6, 2, zPlane, rInner, rOuter);
+    G4Polyhedra* solidDetector = new G4Polyhedra("solidDetector", 0.*deg, 360.*deg, 6, 2, zPlaneCell, rInnerCell, rOuterCell);
     G4RotationMatrix* rotation = new G4RotationMatrix();
     rotation->rotateZ(30.0 * CLHEP::degree);
     
@@ -110,7 +94,7 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     // Define Logic Volume for PCB
     G4double zPlanePCB[] = { 0*um, 1.6*mm }; // Z planes
     G4double rInnerPCB[] = { 0*cm, 0*cm };  // Inner radius
-    G4double rOuterPCB[] = { 101.6*mm, 101.6*mm };  // Outer radius
+    G4double rOuterPCB[] = { 83.72*mm, 83.72*mm };  // Outer radius
  
     G4Polyhedra* PCB = new G4Polyhedra("PCB", 0.*deg, 360.*deg, 6, 2, zPlanePCB, rInnerPCB, rOuterPCB);
     G4LogicalVolume *logicPCB = new G4LogicalVolume(PCB, FR4, "logicPCB");
@@ -127,7 +111,7 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     // Defining Logic Volume for Kapton
     G4double zPlaneKapton[] = { 0*um, 300*um }; // Z planes
     G4double rInnerKapton[] = { 0*cm, 0*cm };  // Inner radius
-    G4double rOuterKapton[] = { 101.6*mm, 101.6*mm };  // Outer radius
+    G4double rOuterKapton[] = { 83.72*mm, 83.72*mm };  // Outer radius
  
     G4Polyhedra* Kapton = new G4Polyhedra("Kapton", 0.*deg, 360.*deg, 6, 2, zPlaneKapton, rInnerKapton, rOuterKapton);
 
@@ -149,7 +133,7 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     // Defining Logic Volume for Baseplate
     G4double zPlaneBaseplate[] = { 0*um, 2*mm }; // Z planes
     G4double rInnerBaseplate[] = { 0*cm, 0*cm };  // Inner radius
-    G4double rOuterBaseplate[] = { 101.6*mm, 101.6*mm };  // Outer radius
+    G4double rOuterBaseplate[] = { 83.72*mm, 83.72*mm };  // Outer radius
  
     G4Polyhedra* Baseplate = new G4Polyhedra("Baseplate", 0.*deg, 360.*deg, 6, 2, zPlaneBaseplate, rInnerBaseplate, rOuterBaseplate);
 
@@ -168,7 +152,7 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     // Defining Logic Volume for Copper Plate
     G4double zPlaneCopper[] = { 0*um, 6*mm }; // Z planes
     G4double rInnerCopper[] = { 0*cm, 0*cm };  // Inner radius
-    G4double rOuterCopper[] = { 101.6*mm, 101.6*mm };  // Outer radius
+    G4double rOuterCopper[] = { 83.72*mm, 83.72*mm };  // Outer radius
  
     G4Polyhedra* Copper_Plate = new G4Polyhedra("Copper_Plate", 0.*deg, 360.*deg, 6, 2, zPlaneCopper, rInnerCopper, rOuterCopper);
 
@@ -187,8 +171,7 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     // Define Logic Volume for Absorbers
     G4double Absorber_Thickness = LeadMat->GetRadlen() * 10;
  
-    G4Box* Absorber_Plate = new G4Box("Absorber_Plate", 20. * cm, 20. * cm, Absorber_Thickness);
-
+    G4Box* Absorber_Plate = new G4Box("Absorber_Plate", 20. * cm, 20. * cm, 0.5 * Absorber_Thickness);
     G4LogicalVolume *logicAbsorber = new G4LogicalVolume(Absorber_Plate, LeadMat, "logicAbsorber");
     
     
@@ -200,7 +183,28 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
 
 	// Assign the visualization attributes to the logical volume
 	logicAbsorber->SetVisAttributes(AbsorberVisAttr);
-    
+
+    //Define center of cells in the wafer
+    std::vector<G4ThreeVector> cells;
+
+    G4double r = 83.72 / 12 * mm;
+
+    for(G4int iu=0;iu<=7;iu++){
+        for(G4int iv=0;iv<=iu+7;iv++){
+            G4double x = ((iv - 7) + (7 - iu) * 0.5) * sqrt(3) * r;
+            G4double y = ((7 - iu) * 0.5 ) * 3 * r +  r;
+            cells.emplace_back(x,y,0);
+        }
+    }
+    for(G4int iu=8;iu<=15;iu++){
+        for(G4int iv=iu-8;iv<=15;iv++){
+            G4double x = ((iv - 7) + (7 - iu) * 0.5) * sqrt(3) * r;
+            G4double y = ((7 - iu) * 0.5) * 3 * r + r;
+            cells.emplace_back(x,y,0);
+        }
+    }
+    //Define center of cells in the wafer
+        
     /* 
     Copy No. definition
     Scintilator:
@@ -218,12 +222,10 @@ G4VPhysicalVolume *MyDetectorConstruction::Construct()
     G4VPhysicalVolume *physKapton =     new G4PVPlacement(0,G4ThreeVector(0.,   0., 300*um  +   z),logicKapton,"physKapton",logicWorld,false,1002,true);
     G4VPhysicalVolume *physBaseplate =  new G4PVPlacement(0,G4ThreeVector(0.,   0., 600*um  +   z),logicBaseplate,"physBaseplate",logicWorld,false,1003,true);		
     G4VPhysicalVolume *physCopper =     new G4PVPlacement(0,G4ThreeVector(0.,   0., 2.0*mm+600*um   +   z),logicCopper,"physCopper",logicWorld,false,1004,true);
-    // for (G4int i=0;i<192;i++){
-    //     G4VPhysicalVolume *physDetector = new G4PVPlacement(rotation,vectors1[i]+G4ThreeVector(0.,0.,z),logicDetector,"physDetector",logicWorld,false,i,true);
-    // }
     for (G4int i=0;i<192;i++){
-        G4VPhysicalVolume *physDetector = new G4PVPlacement(rotation,cells[i]+G4ThreeVector(0.,0.,z),logicDetector,"physDetector",logicWorld,false,i,true);
+       G4VPhysicalVolume *physDetector = new G4PVPlacement(rotation,cells[i]+G4ThreeVector(0.,0.,z),logicDetector,"physDetector",logicWorld,false,i,true);
     }
+
     return physWorld;
 }
 
